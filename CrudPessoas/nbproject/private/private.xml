@@ -3,15 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Rever/Documents/cc3e4alpoo2sem21/CrudPessoas/src/DAL/PessoaDAO.java</file>
-            <file>file:/C:/Users/Rever/Documents/cc3e4alpoo2sem21/CrudPessoas/src/Apresentacao/frmCadastro.java</file>
-            <file>file:/C:/Users/Rever/Documents/cc3e4alpoo2sem21/CrudPessoas/src/Modelo/Pessoa.java</file>
-            <file>file:/C:/Users/Rever/Documents/cc3e4alpoo2sem21/CrudPessoas/src/Apresentacao/frmPesquisareditarExcluir.java</file>
-            <file>file:/C:/Users/Rever/Documents/cc3e4alpoo2sem21/CrudPessoas/src/Modelo/Controle.java</file>
-            <file>file:/C:/Users/Rever/Documents/cc3e4alpoo2sem21/CrudPessoas/src/Modelo/Validacao.java</file>
-            <file>file:/C:/Users/Rever/Documents/cc3e4alpoo2sem21/CrudPessoas/src/crudpessoas/CrudPessoas.java</file>
-            <file>file:/C:/Users/Rever/Documents/cc3e4alpoo2sem21/CrudPessoas/src/DAL/Conexao.java</file>
-            <file>file:/C:/Users/Rever/Documents/cc3e4alpoo2sem21/CrudPessoas/src/Apresentacao/frmPrincipal.java</file>
+            <file>file:/C:/Users/Rever/Documents/GitHub/cc3e4alpoo2sem21/CrudPessoas/src/DAL/PessoaDAO.java</file>
+            <file>file:/C:/Users/Rever/Documents/GitHub/cc3e4alpoo2sem21/CrudPessoas/src/DAL/Conexao.java</file>
+            <file>file:/C:/Users/Rever/Documents/GitHub/cc3e4alpoo2sem21/CrudPessoas/src/Modelo/Controle.java</file>
+            <file>file:/C:/Users/Rever/Documents/GitHub/cc3e4alpoo2sem21/CrudPessoas/src/Modelo/Pessoa.java</file>
+            <file>file:/C:/Users/Rever/Documents/GitHub/cc3e4alpoo2sem21/CrudPessoas/src/Modelo/Validacao.java</file>
         </group>
     </open-files>
 </project-private>
