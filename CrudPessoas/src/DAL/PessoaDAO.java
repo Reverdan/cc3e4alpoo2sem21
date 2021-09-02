@@ -3,6 +3,7 @@ package DAL;
 import Modelo.Pessoa;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
 public class PessoaDAO
@@ -53,7 +54,39 @@ public class PessoaDAO
 
     public Pessoa pesquisarPessoaPorId(Pessoa pessoa)
     {
-        return null;
+        this.mensagem = "";
+        try
+        {
+            Connection con = conexao.conectar();
+            if (conexao.getMensagem().equals(""))
+            {
+                String comSql = "select * from pessoas where id = ?";
+                PreparedStatement stmt = con.prepareStatement(comSql);
+                stmt.setInt(1, pessoa.getId());
+                ResultSet resultset = stmt.executeQuery();
+                if (resultset.next())
+                {
+                    pessoa.setNome(resultset.getString("nome"));
+                    pessoa.setRg(resultset.getString("rg"));
+                    pessoa.setCpf(resultset.getString("cpf"));
+                }
+                else
+                {
+                    this.mensagem = "Não existe este ID";
+                }
+                conexao.desconectar();
+            }
+            else
+            {
+                this.mensagem = conexao.getMensagem();
+            }
+        }
+        catch (Exception e)
+        {
+//            this.mensagem = e.getMessage();
+            this.mensagem = "Erro de leitura no BD";
+        }
+        return pessoa;
     }
 
     public List<Pessoa> pesquisarPessoaPorNome(Pessoa pessoa)

@@ -5,6 +5,7 @@ import java.util.List;
 public class Validacao 
 {
     private String mensagem;
+    private Integer id;
     
     public void validarDadosPessoa(List<String> dadosPessoa)
     {
@@ -12,9 +13,9 @@ public class Validacao
         this.validarIdPessoa(dadosPessoa.get(0)); //ID
         this.validarNomePessoa(dadosPessoa.get(1)); //Nome
         if (dadosPessoa.get(2).length() < 9) //Rg
-            this.mensagem += "RG inválido";
+            this.mensagem += "RG inválido \n";
         if (dadosPessoa.get(3).length() < 11) //Cpf
-            this.mensagem += "CPF inválido";
+            this.mensagem += "CPF inválido \n";
     }
     
     public void validarIdPessoa(String numeroId)
@@ -22,7 +23,7 @@ public class Validacao
         this.mensagem = "";
         try
         {
-            Integer id = Integer.parseInt(numeroId); //ID
+            this.id = Integer.parseInt(numeroId); //ID
         }
         catch (Exception e)
         {
@@ -35,7 +36,7 @@ public class Validacao
         if (nome.length() < 3 ||
                 nome.length() > 50) //Nome
         {
-            this.mensagem += "Nome deve ter de 3 a 50 caracteres";
+            this.mensagem += "Nome deve ter de 3 a 50 caracteres \n";
         }
     }
 
@@ -44,10 +45,11 @@ public class Validacao
         return mensagem;
     }
 
-    public void setMensagem(String mensagem)
+    public Integer getId()
     {
-        this.mensagem = mensagem;
+        return id;
     }
+    
     
     
 }
