@@ -44,7 +44,36 @@ public class PessoaDAO
 
     public void editarPessoa(Pessoa pessoa)
     {
-
+        this.mensagem = "";
+        try
+        {
+            Connection con = conexao.conectar();
+            if (conexao.getMensagem().equals(""))
+            {
+                String comSql = "update pessoas "
+                        + "set nome = ?,"
+                        + "rg = ?,"
+                        + "cpf = ? "
+                        + "where id = ?";
+                PreparedStatement stmt = con.prepareStatement(comSql);
+                stmt.setString(1, pessoa.getNome());
+                stmt.setString(2, pessoa.getRg());
+                stmt.setString(3, pessoa.getCpf());
+                stmt.setInt(4, pessoa.getId());
+                stmt.execute();
+                conexao.desconectar();
+                this.mensagem = "Pessoa editada com sucesso!";
+            }
+            else
+            {
+                this.mensagem = conexao.getMensagem();
+            }
+        }
+        catch (Exception e)
+        {
+//            this.mensagem = e.getMessage();
+            this.mensagem = "Erro de gravação no BD";
+        }
     }
 
     public void excluirPessoa(Pessoa pessoa)
