@@ -63,6 +63,13 @@ public class frmPesquisareditarExcluir extends javax.swing.JDialog
         });
 
         btnPesquisarPorNome.setText("Pesquisar por nome");
+        btnPesquisarPorNome.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnPesquisarPorNomeActionPerformed(evt);
+            }
+        });
 
         lblId.setText("ID");
 
@@ -73,6 +80,13 @@ public class frmPesquisareditarExcluir extends javax.swing.JDialog
         lblCpf.setText("CPF");
 
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
         btnEditar.addActionListener(new java.awt.event.ActionListener()
@@ -183,6 +197,50 @@ public class frmPesquisareditarExcluir extends javax.swing.JDialog
         controle.editarPessoa(dadosPessoa);
         JOptionPane.showMessageDialog(null, controle.getMensagem());
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnExcluirActionPerformed
+    {//GEN-HEADEREND:event_btnExcluirActionPerformed
+        Controle controle = new Controle();
+        
+        int resp = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir esta pessoa?", 
+                "Exclusão", JOptionPane.YES_NO_OPTION);
+        if (resp == JOptionPane.YES_OPTION)
+        {
+            controle.excluirPessoa(txvId.getText());
+            JOptionPane.showMessageDialog(null, controle.getMensagem());
+            txvId.setText("");
+            txvNome.setText("");
+            txvRg.setText("");
+            txvCpf.setText("");
+        }
+        
+        
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnPesquisarPorNomeActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnPesquisarPorNomeActionPerformed
+    {//GEN-HEADEREND:event_btnPesquisarPorNomeActionPerformed
+        Controle controle = new Controle();
+        List<Pessoa> listaPessoas = controle.pesquisarPessoaPorNome(txvNome.getText());
+        if (listaPessoas.size() == 0)
+        {
+            JOptionPane.showMessageDialog(null, "Não existe registros com esta pesquisa");
+        }
+        if (listaPessoas.size() == 1)
+        {
+            txvId.setText(String.valueOf(listaPessoas.get(0).getId()));
+            txvNome.setText(listaPessoas.get(0).getNome());
+            txvRg.setText(listaPessoas.get(0).getRg());
+            txvCpf.setText(listaPessoas.get(0).getCpf());
+        }
+        if (listaPessoas.size() > 1)
+        {
+            
+        }
+        if (!controle.getMensagem().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, controle.getMensagem());
+        }
+    }//GEN-LAST:event_btnPesquisarPorNomeActionPerformed
 
     /**
      * @param args the command line arguments

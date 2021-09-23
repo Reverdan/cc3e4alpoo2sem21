@@ -33,6 +33,7 @@ public class Validacao
     
     public void validarNomePessoa(String nome)
     {
+        this.mensagem = "";
         if (nome.length() < 3 ||
                 nome.length() > 50) //Nome
         {

@@ -4,6 +4,7 @@ import Modelo.Pessoa;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PessoaDAO
@@ -78,7 +79,38 @@ public class PessoaDAO
 
     public void excluirPessoa(Pessoa pessoa)
     {
+        this.mensagem = "";
+        try
+        {
+            Connection con = conexao.conectar();
+            if (conexao.getMensagem().equals(""))
+            {
+                pessoa = this.pesquisarPessoaPorId(pessoa);
+                if (pessoa.getNome() == null || pessoa.getNome().equals(""))
+                {
+                    this.mensagem = "Não existe esta pessoa para excluir";
+                }
+                else
+                {
+                    String comSql = "delete from pessoas where id = ?";
+                    PreparedStatement stmt = con.prepareStatement(comSql);
+                    stmt.setInt(1, pessoa.getId());
+                    stmt.execute();
+                    conexao.desconectar();
+                    this.mensagem = "Pessoa excluida com sucesso!";
+                }
 
+            }
+            else
+            {
+                this.mensagem = conexao.getMensagem();
+            }
+        }
+        catch (Exception e)
+        {
+//            this.mensagem = e.getMessage();
+            this.mensagem = "Erro de gravação no BD";
+        }
     }
 
     public Pessoa pesquisarPessoaPorId(Pessoa pessoa)
@@ -120,7 +152,39 @@ public class PessoaDAO
 
     public List<Pessoa> pesquisarPessoaPorNome(Pessoa pessoa)
     {
-        return null;
+        this.mensagem = "";
+        List<Pessoa> listaPessoas = new ArrayList<>();
+        try
+        {
+            Connection con = conexao.conectar();
+            if (conexao.getMensagem().equals(""))
+            {
+                String comSql = "select * from pessoas where nome like ?";
+                PreparedStatement stmt = con.prepareStatement(comSql);
+                stmt.setString(1, pessoa.getNome() + "%");
+                ResultSet resultset = stmt.executeQuery();
+                while (resultset.next())
+                {
+                    Pessoa pessoaLista = new Pessoa();
+                    pessoaLista.setId(resultset.getInt("id"));
+                    pessoaLista.setNome(resultset.getString("nome"));
+                    pessoaLista.setRg(resultset.getString("rg"));
+                    pessoaLista.setCpf(resultset.getString("cpf"));
+                    listaPessoas.add(pessoaLista);
+                }
+                conexao.desconectar();
+            }
+            else
+            {
+                this.mensagem = conexao.getMensagem();
+            }
+        }
+        catch (Exception e)
+        {
+//            this.mensagem = e.getMessage();
+            this.mensagem = "Erro de leitura no BD";
+        }
+        return listaPessoas;
     }
 
     public String getMensagem()
