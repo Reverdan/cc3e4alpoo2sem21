@@ -6,6 +6,7 @@
 package Apresentacao;
 
 import Modelo.Controle;
+import Modelo.Estaticos;
 import Modelo.Pessoa;
 import java.util.ArrayList;
 import java.util.List;
@@ -234,7 +235,9 @@ public class frmPesquisareditarExcluir extends javax.swing.JDialog
         }
         if (listaPessoas.size() > 1)
         {
-            
+            Estaticos.listaPessoas = listaPessoas;
+            frmSelecao frmS = new frmSelecao(null, true);
+            frmS.setVisible(true);
         }
         if (!controle.getMensagem().equals(""))
         {
