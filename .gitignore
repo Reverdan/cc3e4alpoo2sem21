@@ -23,3 +23,6 @@
 hs_err_pid*
 /CrudPessoas/build/
 /CrudPessoas/dist/
+/Estacao/APSMeteorologica/nbproject/private/
+/Estacao/APSMeteorologica/build/
+/Estacao/APSMeteorologica/dist/
