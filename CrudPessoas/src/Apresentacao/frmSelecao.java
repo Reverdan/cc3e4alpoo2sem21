@@ -69,6 +69,7 @@ public class frmSelecao extends javax.swing.JDialog
                 "ID", "Nome", "RG", "CPF"
             }
         ));
+        tblPesquisarPessoa.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblPesquisarPessoa.addMouseListener(new java.awt.event.MouseAdapter()
         {
             public void mouseClicked(java.awt.event.MouseEvent evt)
@@ -119,7 +120,11 @@ public class frmSelecao extends javax.swing.JDialog
 
     private void tblPesquisarPessoaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_tblPesquisarPessoaMouseClicked
     {//GEN-HEADEREND:event_tblPesquisarPessoaMouseClicked
-        // TODO add your handling code here:
+        int linha = tblPesquisarPessoa.getSelectedRow();
+        Estaticos.pessoa.setId((int) tblPesquisarPessoa.getValueAt(linha, 0));
+        Estaticos.pessoa.setNome((String) tblPesquisarPessoa.getValueAt(linha, 1));
+        Estaticos.pessoa.setRg((String) tblPesquisarPessoa.getValueAt(linha, 2));
+        Estaticos.pessoa.setCpf((String) tblPesquisarPessoa.getValueAt(linha, 3));
     }//GEN-LAST:event_tblPesquisarPessoaMouseClicked
 
     /**

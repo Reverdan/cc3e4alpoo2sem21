@@ -238,6 +238,10 @@ public class frmPesquisareditarExcluir extends javax.swing.JDialog
             Estaticos.listaPessoas = listaPessoas;
             frmSelecao frmS = new frmSelecao(null, true);
             frmS.setVisible(true);
+            txvId.setText(String.valueOf(Estaticos.pessoa.getId()));
+            txvNome.setText(Estaticos.pessoa.getNome());
+            txvRg.setText(Estaticos.pessoa.getRg());
+            txvCpf.setText(Estaticos.pessoa.getCpf());
         }
         if (!controle.getMensagem().equals(""))
         {
