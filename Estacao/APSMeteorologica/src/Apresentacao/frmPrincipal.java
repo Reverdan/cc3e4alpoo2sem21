@@ -119,6 +119,7 @@ public class frmPrincipal extends javax.swing.JDialog
                 lblUmidade.setText(Protocolo.umidade + "%");
                 lblTemperatura.setText(Protocolo.temperatura + "ºC");
                 lblPrecipitacao.setText(Protocolo.precipitacao);
+                
             }
         }; timer.schedule(task, 0, 1000);
         

@@ -40,6 +40,19 @@ public class Validacao
             this.mensagem += "Nome deve ter de 3 a 50 caracteres \n";
         }
     }
+    
+    public void validarEndereco(List<String> listaStringEndereco)
+    {
+        this.mensagem = "";
+        if (listaStringEndereco.get(0).length() > 30)
+            this.mensagem += "Logradouro com mais de 30 caracteres \n";
+        if (listaStringEndereco.get(1).length() > 10)
+            this.mensagem += "Número com mais de 10 caracteres \n";
+        if (listaStringEndereco.get(2).length() > 30)
+            this.mensagem += "Bairro com mais de 30 caracteres \n";
+        if (listaStringEndereco.get(3).length() > 30)
+            this.mensagem += "Cidade com mais de 30 caracteres \n";
+    }
 
     public String getMensagem()
     {
