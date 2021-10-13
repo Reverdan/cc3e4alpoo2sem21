@@ -48,7 +48,7 @@ public class PessoaDAO
                     stmt.setString(5, endereco.getCidade());
                     stmt.execute();
                 }
-                
+
                 conexao.desconectar();
                 this.mensagem = "Pessoa cadastrada com sucesso!";
             }
@@ -151,6 +151,22 @@ public class PessoaDAO
                     pessoa.setNome(resultset.getString("nome"));
                     pessoa.setRg(resultset.getString("rg"));
                     pessoa.setCpf(resultset.getString("cpf"));
+                    comSql = "select * from enderecos "
+                            + "where fk_pessoas_id = ?";
+                    stmt = con.prepareStatement(comSql);
+                    stmt.setInt(1, pessoa.getId());
+                    resultset = stmt.executeQuery();
+                    List<Endereco> listaEnderecos = new ArrayList<>();
+                    while (resultset.next())
+                    {
+                        Endereco end = new Endereco();
+                        end.setLogradouro(resultset.getString("logradouro"));
+                        end.setNumero(resultset.getString("numero"));
+                        end.setBairro(resultset.getString("bairro"));
+                        end.setCidade(resultset.getString("cidade"));
+                        listaEnderecos.add(end);
+                        pessoa.setListaEnderecos(listaEnderecos);
+                    }
                 }
                 else
                 {
@@ -191,6 +207,24 @@ public class PessoaDAO
                     pessoaLista.setNome(resultset.getString("nome"));
                     pessoaLista.setRg(resultset.getString("rg"));
                     pessoaLista.setCpf(resultset.getString("cpf"));
+
+                    comSql = "select * from enderecos "
+                            + "where fk_pessoas_id = ?";
+                    stmt = con.prepareStatement(comSql);
+                    stmt.setInt(1, pessoaLista.getId());
+                    ResultSet resultsetEnderecos = stmt.executeQuery();
+                    List<Endereco> listaEnderecos = new ArrayList<>();
+                    while (resultsetEnderecos.next())
+                    {
+                        Endereco end = new Endereco();
+                        end.setLogradouro(resultsetEnderecos.getString("logradouro"));
+                        end.setNumero(resultsetEnderecos.getString("numero"));
+                        end.setBairro(resultsetEnderecos.getString("bairro"));
+                        end.setCidade(resultsetEnderecos.getString("cidade"));
+                        listaEnderecos.add(end);
+                        pessoaLista.setListaEnderecos(listaEnderecos);
+                    }
+
                     listaPessoas.add(pessoaLista);
                 }
                 conexao.desconectar();
