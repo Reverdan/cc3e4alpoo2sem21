@@ -83,6 +83,24 @@ public class PessoaDAO
                 stmt.setString(3, pessoa.getCpf());
                 stmt.setInt(4, pessoa.getId());
                 stmt.execute();
+                
+                for (Endereco end : pessoa.getListaEnderecos())
+                {
+                    comSql = "update enderecos "
+                            + "set logradouro = ?, "
+                            + "numero = ?, "
+                            + "bairro = ?, "
+                            + "cidade = ? "
+                            + "where id = ?";
+                    stmt = con.prepareStatement(comSql);
+                    stmt.setString(1, end.getLogradouro());
+                    stmt.setString(2, end.getNumero());
+                    stmt.setString(3, end.getBairro());
+                    stmt.setString(4, end.getCidade());
+                    stmt.setInt(5, end.getId());
+                    stmt.execute();
+                }
+                
                 conexao.desconectar();
                 this.mensagem = "Pessoa editada com sucesso!";
             }

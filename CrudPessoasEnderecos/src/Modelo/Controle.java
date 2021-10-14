@@ -47,11 +47,16 @@ public class Controle
         }
     }
             
-    public void editarPessoa(List<String> dadosPessoa)
+    public void editarPessoa(List<String> dadosPessoa, 
+            List<List<String>> listaStringEnderecos)
     {
         this.mensagem = "";
         Validacao validacao = new Validacao();
         validacao.validarDadosPessoa(dadosPessoa);
+        for (List<String> listaEnd : listaStringEnderecos)
+        {
+            validacao.validarEndereco(listaEnd);
+        }
         if (validacao.getMensagem().equals(""))
         {
             Pessoa pessoa = new Pessoa();
@@ -59,6 +64,19 @@ public class Controle
             pessoa.setNome(dadosPessoa.get(1));
             pessoa.setRg(dadosPessoa.get(2));
             pessoa.setCpf(dadosPessoa.get(3));
+            
+            List<Endereco> listaEnderecos = new ArrayList<>();
+            for (List<String> listE : listaStringEnderecos)
+            {
+                Endereco end = new Endereco();
+                end.setLogradouro(listE.get(0));
+                end.setNumero(listE.get(1));
+                end.setBairro(listE.get(2));
+                end.setCidade(listE.get(3));
+                listaEnderecos.add(end);
+            }
+            pessoa.setListaEnderecos(listaEnderecos);
+            
             PessoaDAO pessoaDAO = new PessoaDAO();
             pessoaDAO.editarPessoa(pessoa);
             this.mensagem = pessoaDAO.getMensagem();

@@ -8,6 +8,7 @@ package Apresentacao;
 import Modelo.Controle;
 import Modelo.Estaticos;
 import Modelo.Pessoa;
+import Modelo.Endereco;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -304,6 +305,25 @@ public class frmPesquisareditarExcluir extends javax.swing.JDialog
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void preencherEndereco(Pessoa pessoa)
+    {
+        if (pessoa.getListaEnderecos().size() >= 1)
+        {
+            txfLogradouroResidencial.setText(pessoa.getListaEnderecos().get(0).getLogradouro());
+            txfNumeroResidencial.setText(pessoa.getListaEnderecos().get(0).getNumero());
+            txfBairroResidencial.setText(pessoa.getListaEnderecos().get(0).getBairro());
+            txfCidadeResidencial.setText(pessoa.getListaEnderecos().get(0).getCidade());
+        }
+
+        if (pessoa.getListaEnderecos().size() == 2)
+        {
+            txfLogradouroComercial.setText(pessoa.getListaEnderecos().get(1).getLogradouro());
+            txfNumeroComercial.setText(pessoa.getListaEnderecos().get(1).getNumero());
+            txfBairroComercial.setText(pessoa.getListaEnderecos().get(1).getBairro());
+            txfCidadeComercial.setText(pessoa.getListaEnderecos().get(1).getCidade());
+        }
+    }
+
     private void btnPesquisarPorIdActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnPesquisarPorIdActionPerformed
     {//GEN-HEADEREND:event_btnPesquisarPorIdActionPerformed
         Controle controle = new Controle();
@@ -313,22 +333,7 @@ public class frmPesquisareditarExcluir extends javax.swing.JDialog
             txvNome.setText(pessoa.getNome());
             txvRg.setText(pessoa.getRg());
             txvCpf.setText(pessoa.getCpf());
-
-            if (pessoa.getListaEnderecos().size() >= 1)
-            {
-                txfLogradouroResidencial.setText(pessoa.getListaEnderecos().get(0).getLogradouro());
-                txfNumeroResidencial.setText(pessoa.getListaEnderecos().get(0).getNumero());
-                txfBairroResidencial.setText(pessoa.getListaEnderecos().get(0).getBairro());
-                txfCidadeResidencial.setText(pessoa.getListaEnderecos().get(0).getCidade());
-            }
-
-            if (pessoa.getListaEnderecos().size() == 2)
-            {
-                txfLogradouroComercial.setText(pessoa.getListaEnderecos().get(1).getLogradouro());
-                txfNumeroComercial.setText(pessoa.getListaEnderecos().get(1).getNumero());
-                txfBairroComercial.setText(pessoa.getListaEnderecos().get(1).getBairro());
-                txfCidadeComercial.setText(pessoa.getListaEnderecos().get(1).getCidade());
-            }
+            preencherEndereco(pessoa);
         }
         else
         {
@@ -354,7 +359,25 @@ public class frmPesquisareditarExcluir extends javax.swing.JDialog
         dadosPessoa.add(txvNome.getText());
         dadosPessoa.add(txvRg.getText());
         dadosPessoa.add(txvCpf.getText());
-        controle.editarPessoa(dadosPessoa);
+        
+        List<String> enderecoResidencial = new ArrayList<>();
+        List<String> enderecoComercial = new ArrayList<>();
+        
+        enderecoResidencial.add(txfLogradouroResidencial.getText());
+        enderecoResidencial.add(txfNumeroResidencial.getText());
+        enderecoResidencial.add(txfBairroResidencial.getText());
+        enderecoResidencial.add(txfCidadeResidencial.getText());
+        
+        enderecoComercial.add(txfLogradouroComercial.getText());
+        enderecoComercial.add(txfNumeroComercial.getText());
+        enderecoComercial.add(txfBairroComercial.getText());
+        enderecoComercial.add(txfCidadeComercial.getText());
+        
+        List<List<String>> listaEnderecos = new ArrayList<>();
+        listaEnderecos.add(enderecoResidencial);
+        listaEnderecos.add(enderecoComercial);
+        
+        controle.editarPessoa(dadosPessoa, listaEnderecos);
         JOptionPane.showMessageDialog(null, controle.getMensagem());
     }//GEN-LAST:event_btnEditarActionPerformed
 
@@ -391,23 +414,7 @@ public class frmPesquisareditarExcluir extends javax.swing.JDialog
             txvNome.setText(listaPessoas.get(0).getNome());
             txvRg.setText(listaPessoas.get(0).getRg());
             txvCpf.setText(listaPessoas.get(0).getCpf());
-
-            if (listaPessoas.get(0).getListaEnderecos().size() >= 1)
-            {
-                txfLogradouroResidencial.setText(listaPessoas.get(0).getListaEnderecos().get(0).getLogradouro());
-                txfNumeroResidencial.setText(listaPessoas.get(0).getListaEnderecos().get(0).getNumero());
-                txfBairroResidencial.setText(listaPessoas.get(0).getListaEnderecos().get(0).getBairro());
-                txfCidadeResidencial.setText(listaPessoas.get(0).getListaEnderecos().get(0).getCidade());
-            }
-
-            if (listaPessoas.get(0).getListaEnderecos().size() == 2)
-            {
-                txfLogradouroComercial.setText(listaPessoas.get(0).getListaEnderecos().get(1).getLogradouro());
-                txfNumeroComercial.setText(listaPessoas.get(0).getListaEnderecos().get(1).getNumero());
-                txfBairroComercial.setText(listaPessoas.get(0).getListaEnderecos().get(1).getBairro());
-                txfCidadeComercial.setText(listaPessoas.get(0).getListaEnderecos().get(1).getCidade());
-            }
-
+            preencherEndereco(listaPessoas.get(0));
         }
         if (listaPessoas.size() > 1)
         {
@@ -418,6 +425,16 @@ public class frmPesquisareditarExcluir extends javax.swing.JDialog
             txvNome.setText(Estaticos.pessoa.getNome());
             txvRg.setText(Estaticos.pessoa.getRg());
             txvCpf.setText(Estaticos.pessoa.getCpf());
+
+            for (Pessoa p : listaPessoas)
+            {
+                if (p.getId() == Estaticos.pessoa.getId())
+                {
+                    preencherEndereco(p);
+                }
+
+            }
+
         }
         if (!controle.getMensagem().equals(""))
         {
