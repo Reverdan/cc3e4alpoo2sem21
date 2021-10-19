@@ -121,10 +121,17 @@ public class frmSelecao extends javax.swing.JDialog
     private void tblPesquisarPessoaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_tblPesquisarPessoaMouseClicked
     {//GEN-HEADEREND:event_tblPesquisarPessoaMouseClicked
         int linha = tblPesquisarPessoa.getSelectedRow();
-        Estaticos.pessoa.setId((int) tblPesquisarPessoa.getValueAt(linha, 0));
-        Estaticos.pessoa.setNome((String) tblPesquisarPessoa.getValueAt(linha, 1));
-        Estaticos.pessoa.setRg((String) tblPesquisarPessoa.getValueAt(linha, 2));
-        Estaticos.pessoa.setCpf((String) tblPesquisarPessoa.getValueAt(linha, 3));
+        for (Pessoa p : Estaticos.listaPessoas)
+        {
+            if (p.getId() == (int)tblPesquisarPessoa.getValueAt(linha, 0))
+            {
+                Estaticos.pessoa = p;
+            }
+        }
+//        Estaticos.pessoa.setId((int) tblPesquisarPessoa.getValueAt(linha, 0));
+//        Estaticos.pessoa.setNome((String) tblPesquisarPessoa.getValueAt(linha, 1));
+//        Estaticos.pessoa.setRg((String) tblPesquisarPessoa.getValueAt(linha, 2));
+//        Estaticos.pessoa.setCpf((String) tblPesquisarPessoa.getValueAt(linha, 3));
     }//GEN-LAST:event_tblPesquisarPessoaMouseClicked
 
     /**

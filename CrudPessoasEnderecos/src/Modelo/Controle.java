@@ -29,10 +29,10 @@ public class Controle
             for (List<String> listE : listaStringEnderecos)
             {
                 Endereco end = new Endereco();
-                end.setLogradouro(listE.get(0));
-                end.setNumero(listE.get(1));
-                end.setBairro(listE.get(2));
-                end.setCidade(listE.get(3));
+                end.setLogradouro(listE.get(1));
+                end.setNumero(listE.get(2));
+                end.setBairro(listE.get(3));
+                end.setCidade(listE.get(4));
                 listaEnderecos.add(end);
             }
             pessoa.setListaEnderecos(listaEnderecos);
@@ -69,10 +69,11 @@ public class Controle
             for (List<String> listE : listaStringEnderecos)
             {
                 Endereco end = new Endereco();
-                end.setLogradouro(listE.get(0));
-                end.setNumero(listE.get(1));
-                end.setBairro(listE.get(2));
-                end.setCidade(listE.get(3));
+                end.setId(Integer.parseInt(listE.get(0)));
+                end.setLogradouro(listE.get(1));
+                end.setNumero(listE.get(2));
+                end.setBairro(listE.get(3));
+                end.setCidade(listE.get(4));
                 listaEnderecos.add(end);
             }
             pessoa.setListaEnderecos(listaEnderecos);

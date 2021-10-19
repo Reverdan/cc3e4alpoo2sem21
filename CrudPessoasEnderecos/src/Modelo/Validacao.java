@@ -44,13 +44,21 @@ public class Validacao
     public void validarEndereco(List<String> listaStringEndereco)
     {
         this.mensagem = "";
-        if (listaStringEndereco.get(0).length() > 30)
+        try
+        {
+            int idEndereco = Integer.parseInt(listaStringEndereco.get(0));
+        }
+        catch (NumberFormatException e)
+        {
+            this.mensagem = "ID Endereço inválido";
+        }
+        if (listaStringEndereco.get(1).length() > 30)
             this.mensagem += "Logradouro com mais de 30 caracteres \n";
-        if (listaStringEndereco.get(1).length() > 10)
+        if (listaStringEndereco.get(2).length() > 10)
             this.mensagem += "Número com mais de 10 caracteres \n";
-        if (listaStringEndereco.get(2).length() > 30)
-            this.mensagem += "Bairro com mais de 30 caracteres \n";
         if (listaStringEndereco.get(3).length() > 30)
+            this.mensagem += "Bairro com mais de 30 caracteres \n";
+        if (listaStringEndereco.get(4).length() > 30)
             this.mensagem += "Cidade com mais de 30 caracteres \n";
     }
 
@@ -63,7 +71,4 @@ public class Validacao
     {
         return id;
     }
-    
-    
-    
 }

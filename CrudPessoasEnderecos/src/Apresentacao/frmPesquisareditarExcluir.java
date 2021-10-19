@@ -363,10 +363,14 @@ public class frmPesquisareditarExcluir extends javax.swing.JDialog
         List<String> enderecoResidencial = new ArrayList<>();
         List<String> enderecoComercial = new ArrayList<>();
         
+        enderecoResidencial.add(String.valueOf(Estaticos.pessoa.getListaEnderecos().get(0).getId()));
+        
         enderecoResidencial.add(txfLogradouroResidencial.getText());
         enderecoResidencial.add(txfNumeroResidencial.getText());
         enderecoResidencial.add(txfBairroResidencial.getText());
         enderecoResidencial.add(txfCidadeResidencial.getText());
+        
+        enderecoComercial.add(String.valueOf(Estaticos.pessoa.getListaEnderecos().get(1).getId()));
         
         enderecoComercial.add(txfLogradouroComercial.getText());
         enderecoComercial.add(txfNumeroComercial.getText());
@@ -425,15 +429,18 @@ public class frmPesquisareditarExcluir extends javax.swing.JDialog
             txvNome.setText(Estaticos.pessoa.getNome());
             txvRg.setText(Estaticos.pessoa.getRg());
             txvCpf.setText(Estaticos.pessoa.getCpf());
+            
+            
+            preencherEndereco(Estaticos.pessoa);
 
-            for (Pessoa p : listaPessoas)
-            {
-                if (p.getId() == Estaticos.pessoa.getId())
-                {
-                    preencherEndereco(p);
-                }
-
-            }
+//            for (Pessoa p : listaPessoas)
+//            {
+//                if (p.getId() == Estaticos.pessoa.getId())
+//                {
+//                    preencherEndereco(p);
+//                }
+//
+//            }
 
         }
         if (!controle.getMensagem().equals(""))

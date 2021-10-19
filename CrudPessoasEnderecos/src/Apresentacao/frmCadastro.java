@@ -251,10 +251,14 @@ public class frmCadastro extends javax.swing.JDialog
         List<String> enderecoResidencial = new ArrayList<>();
         List<String> enderecoComercial = new ArrayList<>();
         
+        enderecoResidencial.add("0");
+        
         enderecoResidencial.add(txfLogradouroResidencial.getText());
         enderecoResidencial.add(txfNumeroResidencial.getText());
         enderecoResidencial.add(txfBairroResidencial.getText());
         enderecoResidencial.add(txfCidadeResidencial.getText());
+        
+        enderecoComercial.add("0");
         
         enderecoComercial.add(txfLogradouroComercial.getText());
         enderecoComercial.add(txfNumeroComercial.getText());

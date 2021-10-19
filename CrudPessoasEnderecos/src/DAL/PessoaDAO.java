@@ -178,6 +178,8 @@ public class PessoaDAO
                     while (resultset.next())
                     {
                         Endereco end = new Endereco();
+                        end.setId(resultset.getInt("id"));
+                        end.setFk_pessoas_id(resultset.getInt("fk_pessoas_id"));
                         end.setLogradouro(resultset.getString("logradouro"));
                         end.setNumero(resultset.getString("numero"));
                         end.setBairro(resultset.getString("bairro"));
@@ -235,6 +237,8 @@ public class PessoaDAO
                     while (resultsetEnderecos.next())
                     {
                         Endereco end = new Endereco();
+                        end.setId(resultsetEnderecos.getInt("id"));
+                        end.setFk_pessoas_id(resultsetEnderecos.getInt("fk_pessoas_id"));
                         end.setLogradouro(resultsetEnderecos.getString("logradouro"));
                         end.setNumero(resultsetEnderecos.getString("numero"));
                         end.setBairro(resultsetEnderecos.getString("bairro"));
