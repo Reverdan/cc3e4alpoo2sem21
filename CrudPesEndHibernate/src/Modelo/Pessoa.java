@@ -3,6 +3,7 @@ package Modelo;
 import java.io.Serializable; 
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,7 +42,7 @@ public class Pessoa implements Serializable
     private String rg;
     @Column(name = "cpf")
     private String cpf;
-    @OneToMany(mappedBy = "fkPessoasId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkPessoasId")
     private List<Endereco> enderecoList;
 
     public Pessoa()

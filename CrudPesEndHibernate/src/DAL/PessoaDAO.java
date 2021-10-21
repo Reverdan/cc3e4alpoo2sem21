@@ -8,58 +8,28 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 public class PessoaDAO
 {
 
     private String mensagem;
-    Conexao conexao = new Conexao();
+    Session session = HibernateUtil.getSessionFactory().openSession();
 
     public void cadastrarPessoa(Pessoa pessoa)
     {
         this.mensagem = "";
         try
         {
-            Connection con = conexao.conectar();
-            if (conexao.getMensagem().equals(""))
-            {
-                String comSql = "insert into Pessoas (nome, rg, cpf)"
-                        + "values(?,?,?)"
-                        + "declare @idPessoa int = @@identity "
-                        + "select @idPessoa as idPessoa";
-                PreparedStatement stmt = con.prepareStatement(comSql, Statement.RETURN_GENERATED_KEYS);
-                stmt.setString(1, pessoa.getNome());
-                stmt.setString(2, pessoa.getRg());
-                stmt.setString(3, pessoa.getCpf());
-                stmt.execute();
-                ResultSet rs = stmt.getGeneratedKeys();
-                rs.next();
-                int id = rs.getInt(1);
-                for (Endereco endereco : pessoa.getEnderecoList())
-                {
-                    comSql = "insert into enderecos "
-                            + "(fk_pessoas_id, logradouro, numero, bairro, cidade) "
-                            + "values (?, ?, ?, ?, ?)";
-                    stmt = con.prepareStatement(comSql);
-                    stmt.setInt(1, id);
-                    stmt.setString(2, endereco.getLogradouro());
-                    stmt.setString(3, endereco.getNumero());
-                    stmt.setString(4, endereco.getBairro());
-                    stmt.setString(5, endereco.getCidade());
-                    stmt.execute();
-                }
-
-                conexao.desconectar();
-                this.mensagem = "Pessoa cadastrada com sucesso!";
-            }
-            else
-            {
-                this.mensagem = conexao.getMensagem();
-            }
+            session.beginTransaction();
+            session.save(pessoa);
+            session.getTransaction().commit();
+            session.close();
+            this.mensagem = "Pessoa cadastrada com sucesso!";
         }
         catch (Exception e)
         {
-//            this.mensagem = e.getMessage();
             this.mensagem = "Erro de gravação no BD";
         }
     }
@@ -69,49 +39,15 @@ public class PessoaDAO
         this.mensagem = "";
         try
         {
-            Connection con = conexao.conectar();
-            if (conexao.getMensagem().equals(""))
-            {
-                String comSql = "update pessoas "
-                        + "set nome = ?,"
-                        + "rg = ?,"
-                        + "cpf = ? "
-                        + "where id = ?";
-                PreparedStatement stmt = con.prepareStatement(comSql);
-                stmt.setString(1, pessoa.getNome());
-                stmt.setString(2, pessoa.getRg());
-                stmt.setString(3, pessoa.getCpf());
-                stmt.setInt(4, pessoa.getId());
-                stmt.execute();
-                
-                for (Endereco end : pessoa.getEnderecoList())
-                {
-                    comSql = "update enderecos "
-                            + "set logradouro = ?, "
-                            + "numero = ?, "
-                            + "bairro = ?, "
-                            + "cidade = ? "
-                            + "where id = ?";
-                    stmt = con.prepareStatement(comSql);
-                    stmt.setString(1, end.getLogradouro());
-                    stmt.setString(2, end.getNumero());
-                    stmt.setString(3, end.getBairro());
-                    stmt.setString(4, end.getCidade());
-                    stmt.setInt(5, end.getId());
-                    stmt.execute();
-                }
-                
-                conexao.desconectar();
-                this.mensagem = "Pessoa editada com sucesso!";
-            }
-            else
-            {
-                this.mensagem = conexao.getMensagem();
-            }
+            session.beginTransaction();
+            session.saveOrUpdate(pessoa);
+            session.getTransaction().commit();
+            session.close();
+            this.mensagem = "Pessoa editada com sucesso!";
+
         }
         catch (Exception e)
         {
-//            this.mensagem = e.getMessage();
             this.mensagem = "Erro de gravação no BD";
         }
     }
@@ -121,33 +57,15 @@ public class PessoaDAO
         this.mensagem = "";
         try
         {
-            Connection con = conexao.conectar();
-            if (conexao.getMensagem().equals(""))
-            {
-                pessoa = this.pesquisarPessoaPorId(pessoa);
-                if (pessoa.getNome() == null || pessoa.getNome().equals(""))
-                {
-                    this.mensagem = "Não existe esta pessoa para excluir";
-                }
-                else
-                {
-                    String comSql = "delete from pessoas where id = ?";
-                    PreparedStatement stmt = con.prepareStatement(comSql);
-                    stmt.setInt(1, pessoa.getId());
-                    stmt.execute();
-                    conexao.desconectar();
-                    this.mensagem = "Pessoa excluida com sucesso!";
-                }
+            session.beginTransaction();
+            session.delete(pessoa);
+            session.getTransaction().commit();
+            session.close();
+            this.mensagem = "Pessoa excluida com sucesso!";
 
-            }
-            else
-            {
-                this.mensagem = conexao.getMensagem();
-            }
         }
         catch (Exception e)
         {
-//            this.mensagem = e.getMessage();
             this.mensagem = "Erro de gravação no BD";
         }
     }
@@ -157,51 +75,12 @@ public class PessoaDAO
         this.mensagem = "";
         try
         {
-            Connection con = conexao.conectar();
-            if (conexao.getMensagem().equals(""))
-            {
-                String comSql = "select * from pessoas where id = ?";
-                PreparedStatement stmt = con.prepareStatement(comSql);
-                stmt.setInt(1, pessoa.getId());
-                ResultSet resultset = stmt.executeQuery();
-                if (resultset.next())
-                {
-                    pessoa.setNome(resultset.getString("nome"));
-                    pessoa.setRg(resultset.getString("rg"));
-                    pessoa.setCpf(resultset.getString("cpf"));
-                    comSql = "select * from enderecos "
-                            + "where fk_pessoas_id = ?";
-                    stmt = con.prepareStatement(comSql);
-                    stmt.setInt(1, pessoa.getId());
-                    resultset = stmt.executeQuery();
-                    List<Endereco> listaEnderecos = new ArrayList<>();
-                    while (resultset.next())
-                    {
-                        Endereco end = new Endereco();
-                        end.setId(resultset.getInt("id"));
-                        end.setFkPessoasId(pessoa);
-                        end.setLogradouro(resultset.getString("logradouro"));
-                        end.setNumero(resultset.getString("numero"));
-                        end.setBairro(resultset.getString("bairro"));
-                        end.setCidade(resultset.getString("cidade"));
-                        listaEnderecos.add(end);
-                        pessoa.setEnderecoList(listaEnderecos);
-                    }
-                }
-                else
-                {
-                    this.mensagem = "Não existe este ID";
-                }
-                conexao.desconectar();
-            }
-            else
-            {
-                this.mensagem = conexao.getMensagem();
-            }
+            Query q = session.createQuery("from Pessoa p where p.id = :id");
+            q.setParameter("id", pessoa.getId());
+            pessoa = (Pessoa) q.list().get(0);
         }
         catch (Exception e)
         {
-//            this.mensagem = e.getMessage();
             this.mensagem = "Erro de leitura no BD";
         }
         return pessoa;
@@ -213,52 +92,12 @@ public class PessoaDAO
         List<Pessoa> listaPessoas = new ArrayList<>();
         try
         {
-            Connection con = conexao.conectar();
-            if (conexao.getMensagem().equals(""))
-            {
-                String comSql = "select * from pessoas where nome like ?";
-                PreparedStatement stmt = con.prepareStatement(comSql);
-                stmt.setString(1, pessoa.getNome() + "%");
-                ResultSet resultset = stmt.executeQuery();
-                while (resultset.next())
-                {
-                    Pessoa pessoaLista = new Pessoa();
-                    pessoaLista.setId(resultset.getInt("id"));
-                    pessoaLista.setNome(resultset.getString("nome"));
-                    pessoaLista.setRg(resultset.getString("rg"));
-                    pessoaLista.setCpf(resultset.getString("cpf"));
-
-                    comSql = "select * from enderecos "
-                            + "where fk_pessoas_id = ?";
-                    stmt = con.prepareStatement(comSql);
-                    stmt.setInt(1, pessoaLista.getId());
-                    ResultSet resultsetEnderecos = stmt.executeQuery();
-                    List<Endereco> listaEnderecos = new ArrayList<>();
-                    while (resultsetEnderecos.next())
-                    {
-                        Endereco end = new Endereco();
-                        end.setId(resultsetEnderecos.getInt("id"));
-                        end.setFkPessoasId(pessoaLista);
-                        end.setLogradouro(resultsetEnderecos.getString("logradouro"));
-                        end.setNumero(resultsetEnderecos.getString("numero"));
-                        end.setBairro(resultsetEnderecos.getString("bairro"));
-                        end.setCidade(resultsetEnderecos.getString("cidade"));
-                        listaEnderecos.add(end);
-                        pessoaLista.setEnderecoList(listaEnderecos);
-                    }
-
-                    listaPessoas.add(pessoaLista);
-                }
-                conexao.desconectar();
-            }
-            else
-            {
-                this.mensagem = conexao.getMensagem();
-            }
+            Query q = session.createQuery("from Pessoa p where p.nome like :nome");
+            q.setParameter("nome", pessoa.getNome() + "%");
+            listaPessoas = (List<Pessoa>) q.list();
         }
         catch (Exception e)
         {
-//            this.mensagem = e.getMessage();
             this.mensagem = "Erro de leitura no BD";
         }
         return listaPessoas;

@@ -33,6 +33,7 @@ public class Controle
                 end.setNumero(listE.get(2));
                 end.setBairro(listE.get(3));
                 end.setCidade(listE.get(4));
+                end.setFkPessoasId(pessoa);
                 listaEnderecos.add(end);
             }
             pessoa.setEnderecoList(listaEnderecos);
@@ -74,6 +75,7 @@ public class Controle
                 end.setNumero(listE.get(2));
                 end.setBairro(listE.get(3));
                 end.setCidade(listE.get(4));
+                end.setFkPessoasId(pessoa);
                 listaEnderecos.add(end);
             }
             pessoa.setEnderecoList(listaEnderecos);
